@@ -1,0 +1,57 @@
+{
+  "annotations": {"list": []},
+  "editable": true,
+  "panels": [
+    {
+      "type": "stat",
+      "title": "API request rate",
+      "targets": [{"expr": "sum(rate(quantdinger_http_requests_total[5m]))", "refId": "A"}],
+      "gridPos": {"h": 8, "w": 6, "x": 0, "y": 0}
+    },
+    {
+      "type": "stat",
+      "title": "API 5xx rate",
+      "targets": [{"expr": "sum(rate(quantdinger_http_requests_total{status=~\"5..\"}[5m]))", "refId": "A"}],
+      "gridPos": {"h": 8, "w": 6, "x": 6, "y": 0}
+    },
+    {
+      "type": "stat",
+      "title": "API p95 latency",
+      "targets": [{"expr": "histogram_quantile(0.95, sum(rate(quantdinger_http_request_duration_seconds_bucket[5m])) by (le))", "refId": "A"}],
+      "gridPos": {"h": 8, "w": 6, "x": 12, "y": 0}
+    },
+    {
+      "type": "stat",
+      "title": "Healthy workers",
+      "targets": [{"expr": "sum(quantdinger_workers_healthy)", "refId": "A"}],
+      "gridPos": {"h": 8, "w": 6, "x": 18, "y": 0}
+    },
+    {
+      "type": "timeseries",
+      "title": "Request duration",
+      "targets": [
+        {"expr": "histogram_quantile(0.50, sum(rate(quantdinger_http_request_duration_seconds_bucket[5m])) by (le))", "legendFormat": "p50", "refId": "A"},
+        {"expr": "histogram_quantile(0.95, sum(rate(quantdinger_http_request_duration_seconds_bucket[5m])) by (le))", "legendFormat": "p95", "refId": "B"}
+      ],
+      "gridPos": {"h": 9, "w": 12, "x": 0, "y": 8}
+    },
+    {
+      "type": "timeseries",
+      "title": "Worker heartbeat health",
+      "targets": [
+        {"expr": "quantdinger_workers_healthy", "legendFormat": "healthy {{role}}", "refId": "A"},
+        {"expr": "quantdinger_workers_stale", "legendFormat": "stale {{role}}", "refId": "B"}
+      ],
+      "gridPos": {"h": 9, "w": 12, "x": 12, "y": 8}
+    }
+  ],
+  "refresh": "15s",
+  "schemaVersion": 42,
+  "tags": ["quantdinger", "runtime"],
+  "templating": {"list": []},
+  "time": {"from": "now-6h", "to": "now"},
+  "timezone": "browser",
+  "title": "QuantDinger Runtime Overview",
+  "uid": "quantdinger-runtime",
+  "version": 1
+}

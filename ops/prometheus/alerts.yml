@@ -1,0 +1,67 @@
+groups:
+  - name: quantdinger-runtime
+    rules:
+      - alert: QuantDingerApiDown
+        expr: up{job="quantdinger-api"} == 0
+        for: 2m
+        labels:
+          severity: critical
+        annotations:
+          summary: QuantDinger API is unavailable
+
+      - alert: QuantDingerWorkerMissing
+        expr: quantdinger_workers_healthy{role=~"trading|scheduler|celery"} < 1
+        for: 2m
+        labels:
+          severity: critical
+        annotations:
+          summary: Required QuantDinger worker is missing
+          description: "No fresh heartbeat for {{ $labels.role }}."
+
+      - alert: QuantDingerHighApiErrorRate
+        expr: |
+          sum(rate(quantdinger_http_requests_total{status=~"5.."}[5m]))
+          /
+          clamp_min(sum(rate(quantdinger_http_requests_total[5m])), 0.001)
+          > 0.05
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: QuantDinger API error rate exceeds 5 percent
+
+      - alert: QuantDingerSlowApi
+        expr: |
+          histogram_quantile(
+            0.95,
+            sum(rate(quantdinger_http_request_duration_seconds_bucket[5m])) by (le)
+          ) > 2
+        for: 10m
+        labels:
+          severity: warning
+        annotations:
+          summary: QuantDinger API p95 latency exceeds two seconds
+
+      - alert: QuantDingerStrategyCommandFailures
+        expr: quantdinger_strategy_commands{status="failed"} > 0
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: Durable strategy commands failed during the last 24 hours
+
+      - alert: QuantDingerPostgresExporterDown
+        expr: up{job="postgres"} == 0
+        for: 3m
+        labels:
+          severity: warning
+        annotations:
+          summary: PostgreSQL exporter is unavailable
+
+      - alert: QuantDingerRedisExporterDown
+        expr: up{job=~"redis-cache|redis-jobs"} == 0
+        for: 3m
+        labels:
+          severity: warning
+        annotations:
+          summary: Redis exporter is unavailable

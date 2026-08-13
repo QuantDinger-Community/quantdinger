@@ -1,0 +1,11 @@
+﻿# QuantDinger Compose layout (documentation placeholder)
+services:
+  backend:
+    image: quantdinger/backend:stable
+    env_file: env.example
+    ports:
+      - "127.0.0.1:5000:5000"
+  web:
+    image: quantdinger/web:stable
+    ports:
+      - "127.0.0.1:8888:80"

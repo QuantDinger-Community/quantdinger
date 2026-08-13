@@ -1,0 +1,69 @@
+[build-system]
+requires = ["setuptools>=77", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "quantdinger-mcp"
+version = "0.5.0"
+description = "Full-surface Model Context Protocol server for QuantDinger research, strategy authoring, backtests, observations, notifications, and safety-gated trading."
+readme = "README.md"
+requires-python = ">=3.10"
+license = "Apache-2.0"
+license-files = ["LICENSE"]
+authors = [
+  { name = "QuantDinger", email = "quantdinger@gmail.com" }
+]
+keywords = [
+  "mcp",
+  "model-context-protocol",
+  "quantdinger",
+  "ai-agent",
+  "trading",
+  "backtest",
+  "quant",
+  "cursor",
+  "claude",
+  "codex",
+  "openclaw",
+  "nanobot"
+]
+classifiers = [
+  "Development Status :: 4 - Beta",
+  "Intended Audience :: Developers",
+  "Intended Audience :: Financial and Insurance Industry",
+  "Operating System :: OS Independent",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: 3.13",
+  "Topic :: Office/Business :: Financial :: Investment",
+  "Topic :: Software Development :: Libraries :: Python Modules"
+]
+dependencies = [
+  "mcp>=1.28.1,<1.29",
+  "httpx>=0.27.0,<0.29"
+]
+
+[project.optional-dependencies]
+dev = [
+  "pytest>=7",
+  "build>=1.0",
+  "twine>=4"
+]
+
+[project.urls]
+Homepage      = "https://github.com/OpenByteInc/QuantDinger"
+Documentation = "https://github.com/OpenByteInc/QuantDinger/blob/main/docs/agent/AGENT_QUICKSTART.md"
+Repository    = "https://github.com/OpenByteInc/QuantDinger"
+Issues        = "https://github.com/OpenByteInc/QuantDinger/issues"
+Changelog     = "https://github.com/OpenByteInc/QuantDinger/blob/main/mcp_server/RELEASE.md"
+
+[project.scripts]
+quantdinger-mcp = "quantdinger_mcp.server:main"
+
+[tool.setuptools]
+include-package-data = true
+
+[tool.setuptools.packages.find]
+where = ["src"]
