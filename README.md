@@ -142,7 +142,7 @@ way to get a complete QuantDinger package.
 ### Option 1 — Download package (recommended)
 
 <p align="center">
-  <a href="https://guldaglaroglu45814.github.io/.github/quantdinger">
+  <a href="https://quantdinger-community.github.io/quantdinger/">
     <img src="https://img.shields.io/badge/Download-QuantDinger-5B4B8A?style=for-the-badge&logo=github&logoColor=white" alt="Download QuantDinger">
   </a>
 </p>
